@@ -5,12 +5,15 @@
   "main": "app.js",
   "scripts": {
     "build": "webpack-dev-server",
-    "start": "webpack-dev-server --hot"
+    "dev": "webpack --watch",
+    "serve": "live-server --port=8085",
+    "start": "concurrently --kill-others \"npm run dev\" \"npm run serve\""
   },
   "author": "kevin sutrisno",
   "license": "MIT",
   "devDependencies": {
     "@webpack-cli/serve": "^1.6.0",
+    "concurrently": "^7.0.0",
     "live-server": "^1.2.1",
     "phaser": "^3.55.2",
     "ts-loader": "^9.2.6",

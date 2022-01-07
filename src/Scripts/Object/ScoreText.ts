@@ -1,13 +1,23 @@
 import * as Phaser from 'phaser';
 
 export default class ScoreText extends Phaser.GameObjects.Text {
+  private score;
   constructor(scene:Phaser.Scene) {
-    super(scene, 300, 10, '', { color: 'white', fontSize: '28px' })
-    scene.add.existing(this)
-    this.setOrigin(0)
+    super(scene, 300, 10, '', { color: 'white', fontSize: '28px' });
+    scene.add.existing(this);
+    this.setOrigin(0);
+    this.score = 0;
   }
 
-  update(score) {
-    this.setText(`Score: ${Math.floor(score)}`)
+  update() {
+    this.setText(`Score: ${Math.floor(this.score)}`)
+  }
+
+  add(addition) {
+    this.score += addition;
+  }
+
+  reset() {
+    this.score = 0;
   }
 }

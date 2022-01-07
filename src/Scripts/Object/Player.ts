@@ -6,7 +6,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
     public isJumping = false;
     constructor(scene:Phaser.Scene, x:number, y:number)
     {
-        super(scene,x, y, "runner");
+        super(scene, x, y, "runner");
 
         this.scene.add.existing(this);
 
