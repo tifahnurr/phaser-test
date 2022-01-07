@@ -10,4 +10,8 @@ export default class Saw extends Entity
         super(scene, getResolution().width + 50, getResolution().height * 3 / 4 - 50, "saw");
         this.setAngularVelocity(300);
     }
+    reset(): void{
+        super.reset();
+        this.setAngularVelocity(300);
+    }
 }

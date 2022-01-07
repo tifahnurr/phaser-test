@@ -6,6 +6,8 @@ import Star from "../Object/Star";
 import Saw from "../Object/Saw";
 import ScoreText from "../Object/ScoreText";
 import Obstacle from "../Object/Obstacle";
+import StarPool from "../Object/StarPool";
+import ObstaclePool from "../Object/ObstaclePool";
 
 import {getResolution, getConfig} from '../Util/Util'
 
@@ -21,13 +23,10 @@ export default class GameScene extends Phaser.Scene {
   private ground;
   private dirt;
   private sky;
-  private scoreInterval;
   private starPool;
-  private starGroup;
   private obstaclePool;
-  private obstacleGroup;
   private sawPool;
-  private sawGroup;
+  private gameOverText;
 
   private audio = {jump: null, score: null, collision: null, bg: null};
   constructor() {
@@ -67,17 +66,9 @@ export default class GameScene extends Phaser.Scene {
     this.ground = this.add.tileSprite(0, getResolution().height * 3 / 4 - 30, 1000, 50, 'grass').setOrigin(0, 0);
     this.dirt = this.add.tileSprite(0, getResolution().height * 3 / 4 + 20, 1000, 280, 'dirt').setOrigin(0, 0);
     this.physics.add.collider(this.player, this.platform);
-    this.starPool = this.add.group({
-      removeCallback: function(star){
-          star.scene.starGroup.add(star)
-      }});
-    this.starGroup = this.add.group({
-      removeCallback: function(star){
-          star.scene.starPool.add(star)
-      }});
-    // this.scoreInterval = setInterval(() => {
-    //   this.scoreText.add(100);
-    // }, 3000)
+    this.starPool = new StarPool(this.game, this, this.player, this.audio.score);
+    this.obstaclePool = new ObstaclePool(this.game, this, this.player, this.audio.collision);
+    this.sawPool = new ObstaclePool(this.game, this, this.player, this.audio.collision);
     this.time.addEvent({
       delay: 3000, loop: true, 
       callback: () => {
@@ -126,15 +117,14 @@ export default class GameScene extends Phaser.Scene {
             let randomObj = Phaser.Math.Between(0, 2);
             switch (randomObj) {
               case 0:
-                this.spawnStar();
+                this.starPool.spawn(Star);
+                // this.spawnStar();
                 break;
               case 1:
-                let obstacle = new Obstacle(this);
-                this.physics.add.overlap(this.player, obstacle, this.collided, null, this);
+                this.obstaclePool.spawn(Obstacle);
                 break;
               case 2:
-                let saw = new Saw(this);
-                this.physics.add.overlap(this.player, saw, this.collided, null, this);
+                this.sawPool.spawn(Saw);
                 break;
             }
             this.isSpawningObject = false;
@@ -142,58 +132,25 @@ export default class GameScene extends Phaser.Scene {
         });
       }
     }
-    
-    // this.background[0].setTilePosition(this.background[0].x + 100, this.background[0].y);
   }
-  collectStar(_, star): void {
-    if (!star.isCollided) {
-      star.kill();
-      this.scoreText.add(50);
-      // console.log(this.score);
-      this.starGroup.killAndHide(star);
-      this.starGroup.remove(star);
-      this.audio.score.play();
-    }
+  
+  collided(): void {
+    console.log("game over");
+    this.gameOver = true;
+    this.time.timeScale = 0;
+    this.player.anims.stop();
+    let gameOverText = this.add.text(getResolution().width / 2, getResolution().height / 2, 'GAME OVER', { fontSize: '32px', color: "#fffff"});
+    gameOverText.setOrigin(0.5);
+    this.input.keyboard.on('keydown', () => {
+      this.audio.bg.stop();
+      this.scene.start('GameScene');
+    })
+    this.input.on("pointerdown", () => {
+      this.audio.bg.stop();
+      this.scene.start('GameScene');
+    })
   }
-  collided(player, obstacle): void {
-    if (!obstacle.isCollided) {
-      obstacle.kill();
-      this.audio.collision.play();
-      this.gameOver = true;
-      this.time.timeScale = 0;
-      this.player.anims.stop();
-      this.input.keyboard.on('keydown', () => {
-        this.audio.bg.stop();
-        this.scene.start('GameScene');
-      })
-      this.input.on("pointerdown", () => {
-        this.audio.bg.stop();
-        this.scene.start('GameScene');
-      })
-    }
-  }
-  spawnStar(): void {
-    console.log("spawn star");
-    console.log(this.starPool.getLength());
-    if (this.starPool.getLength()) {
-      console.log("recycle star");
-      let star = this.starPool.getFirst();
-      star.x = getResolution().width + 50;
-      // coin.y = posY - 96;
-      star.alpha = 1;
-      star.active = true;
-      star.visible = true;
-      star.reset();
-      this.starPool.remove(star);
-    } else {
-      console.log("create new star");
-        let star = new Star(this);
-        star.setImmovable(true);
-        this.physics.add.overlap(this.player, star, this.collectStar, null, this);
-        // star.setVelocityX(platform.body.velocity.x);
-        this.starGroup.add(star);
-    }
-  }
+
   addScore(addition): void {
     this.scoreText.add(addition);
   }

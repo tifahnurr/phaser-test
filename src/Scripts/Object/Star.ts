@@ -10,7 +10,7 @@ export default class Star extends Entity
         console.log("create star entity");
         super(scene, getResolution().width + 50, getResolution().height * 3 / 4 - 200, "crystal");
     }
-    kill(): void {
-        super.kill();
+    collision(): void {
+        super.killEntity();
     }
 }

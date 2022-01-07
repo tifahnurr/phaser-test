@@ -20,10 +20,13 @@ export default class Entity extends Phaser.Physics.Arcade.Sprite
     }
     update(): void {
         if (this.getRightCenter().x < 0) {
-            this.kill();
+            this.killEntity();
         }
     }
-    kill(): void {
+    collision(player, entity): void {
+        this.killEntity();
+    }
+    killEntity(): void {
         console.log("collided");
         this.isCollided = true;
         this.setVelocityX(0);

@@ -1,24 +1,21 @@
 import * as Phaser from "phaser";
 import EntityPool from "./EntityPool";
-import Star from "./Star";
 
-class StarPool extends EntityPool {
+class ObstaclePool extends EntityPool {
     constructor(game, scene, player, collisionSound) {
-        console.log("star pool");
+        console.log("obstacle pool");
         super(game, scene, player, collisionSound);
         this.onCollisionEvent = this.onCollision;
     }
-    
+
     onCollision(player, entity): void {
         if (!entity.isCollided) {
-            console.log("star collision");
-            this.group.killAndHide(entity);
-            this.group.remove(entity);
             entity.collision();
+            console.log("collided obstacle");
             this.collisionSound.play();
-            this.scene.addScore(50)
+            this.scene.collided();
         }
     }
 }
 
-export default StarPool;
+export default ObstaclePool;

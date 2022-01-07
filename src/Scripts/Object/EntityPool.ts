@@ -3,48 +3,49 @@ import Entity from "./Entity";
 import Player from "./Player";
 
 class EntityPool {
-    private pool: Phaser.Physics.Arcade.Group;
-    private group: Phaser.Physics.Arcade.Group;
+    public pool: Phaser.Physics.Arcade.Group;
+    public group: Phaser.Physics.Arcade.Group;
     protected scene: Phaser.Scene;
     private player: Player;
-    private Entity: Class;
+    protected collisionSound;
+    protected onCollisionEvent;
     
-    constructor(game, scene, player) {
+    constructor(game, scene, player, collisionSound) {
+        console.log('construct');
+        const self = this;
         this.scene = scene;
         this.player = player;
         this.pool = this.scene.physics.add.group({
-            removeCallback: function(star){
-                this.group.add(star)
+            removeCallback: function(entity){
+                self.group.add(entity)
             }});
         this.group = this.scene.physics.add.group({
-            removeCallback: function(star){
-                this.pool.add(star)
+            removeCallback: function(entity){
+                self.pool.add(entity)
             }});
+        this.collisionSound = collisionSound;
     }
     spawn(Type): void {
+        let entity;
         if (this.pool.getLength()) {
-            console.log("recycle star");
-            let star = this.pool.getFirst();
-            star.alpha = 1;
-            star.active = true;
-            star.visible = true;
-            star.reset();
-            this.pool.remove(star);
-          } else {
-            console.log("create new star");
-            let entity = new Type(this.scene);
-            this.scene.physics.add.overlap(this.player, entity, this.collision, null, this.scene);
+            entity = this.pool.getFirst();
+            this.pool.remove(entity);
+            entity.alpha = 1;
+            entity.active = true;
+            entity.visible = true;
+            entity.reset();
+        } else {
+            entity = new Type(this.scene);
+            this.scene.physics.add.overlap(this.player, entity, this.onCollision, null, this);
             this.group.add(entity);
-          }
-    }
-    collision(player, entity): void {
-        entity.kill();
-        this.group.remove(entity);
-        this.group.killAndHide(entity);
+            entity.alpha = 1;
+            entity.active = true;
+            entity.visible = true;
+            entity.reset();
+        }
     }
 
-    createNew(): Entity {
-        return null;
+    onCollision(player, entity): void {
     }
 }
 
