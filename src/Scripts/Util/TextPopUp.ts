@@ -43,7 +43,12 @@ class TextPopUpHelper {
    * @param bold is the text bold (boolean)
    * @param easeIn does the text has ease in animation (boolean)
    */
-  showText(scene: Phaser.Scene, config: ITextConfig, x, y): Phaser.GameObjects.Text {
+  showText(
+    scene: Phaser.Scene,
+    config: ITextConfig,
+    x,
+    y
+  ): Phaser.GameObjects.Text {
     if (this.text !== undefined) {
       this.text.destroy();
     }

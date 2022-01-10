@@ -47,9 +47,8 @@ export default class AnimationHelper {
     targetScale: number,
     delay: number = 0
   ) {
-
     object.setScale(object.scale * startScale);
-    
+
     scene.tweens.add({
       targets: object,
       scale: object.scale * targetScale,
@@ -149,9 +148,9 @@ export default class AnimationHelper {
    */
   static EaseInAndFade(scene: Phaser.Scene, object: any, duration: number) {
     let scale = object.scale;
-    
+
     object.setScale(object.scale * 0.3);
-    
+
     let easeDuration = duration * 0.5;
 
     if (easeDuration > 0.3) easeDuration = 0.5;

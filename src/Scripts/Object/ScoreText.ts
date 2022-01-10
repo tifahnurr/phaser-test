@@ -1,18 +1,21 @@
-import * as Phaser from 'phaser';
+import * as Phaser from "phaser";
 
-import {getResolution, getConfig} from '../Util/Util'
+import { getResolution, getConfig } from "../Util/Util";
 
 export default class ScoreText extends Phaser.GameObjects.Text {
   private score;
-  constructor(scene:Phaser.Scene) {
-    super(scene, getResolution().width / 2, 10, '', { color: 'white', fontSize: '28px' });
+  constructor(scene: Phaser.Scene) {
+    super(scene, getResolution().width / 2, 10, "", {
+      color: "white",
+      fontSize: "28px",
+    });
     scene.add.existing(this);
     this.setOrigin(0.5, 0);
     this.score = 0;
   }
 
   update() {
-    this.setText(`Score: ${Math.floor(this.score)}`)
+    this.setText(`Score: ${Math.floor(this.score)}`);
   }
 
   add(addition) {

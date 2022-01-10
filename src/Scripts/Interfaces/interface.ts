@@ -149,14 +149,12 @@ interface IRow {
   row: number[];
 }
 
-
 interface ILevelConfig {
   level_settings_time_limit: number;
 
   level_settings_level_type: number;
   level_settings_descend_delay: number;
   level_settings_points_to_star: number[];
- 
 
   level_settings_move_prompt_threshold: number[];
   //IPowerUp
