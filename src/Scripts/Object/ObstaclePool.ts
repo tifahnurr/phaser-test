@@ -2,18 +2,16 @@ import * as Phaser from "phaser";
 import EntityPool from "./EntityPool";
 
 class ObstaclePool extends EntityPool {
-    constructor(game, scene, player, collisionSound) {
-        console.log("obstacle pool");
-        super(game, scene, player, collisionSound);
+    constructor(game, scene, player, basePositionY, collisionSound) {
+        super(game, scene, player, basePositionY, collisionSound);
         this.onCollisionEvent = this.onCollision;
     }
 
     onCollision(player, entity): void {
         if (!entity.isCollided) {
             entity.collision();
-            console.log("collided obstacle");
             this.collisionSound.play();
-            this.scene.collided();
+            this.scene.events.emit("gameOver");
         }
     }
 }

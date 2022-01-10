@@ -9,12 +9,14 @@ class EntityPool {
     private player: Player;
     protected collisionSound;
     protected onCollisionEvent;
+    protected basePositionY;
     
-    constructor(game, scene, player, collisionSound) {
+    constructor(game, scene, player, basePositionY, collisionSound) {
         console.log('construct');
         const self = this;
         this.scene = scene;
         this.player = player;
+        this.basePositionY = basePositionY;
         this.pool = this.scene.physics.add.group({
             removeCallback: function(entity){
                 self.group.add(entity)
@@ -25,6 +27,7 @@ class EntityPool {
             }});
         this.collisionSound = collisionSound;
     }
+    
     spawn(Type): void {
         let entity;
         if (this.pool.getLength()) {
@@ -35,7 +38,7 @@ class EntityPool {
             entity.visible = true;
             entity.reset();
         } else {
-            entity = new Type(this.scene);
+            entity = new Type(this.scene, this.basePositionY);
             this.scene.physics.add.overlap(this.player, entity, this.onCollision, null, this);
             this.group.add(entity);
             entity.alpha = 1;
@@ -46,6 +49,18 @@ class EntityPool {
     }
 
     onCollision(player, entity): void {
+    }
+
+    stopAll(): void {
+        this.group.getChildren().forEach(element => {
+            element.killEntity();
+        });
+    }
+    update(speed): void {
+        this.group.getChildren().forEach(element => {
+            // console.log("move child");
+            element.x -= speed;
+        })
     }
 }
 

@@ -15,7 +15,6 @@ export default class Entity extends Phaser.Physics.Arcade.Sprite
         this.scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setInteractive();
-        this.setVelocityX(getConfig().moveSpeed);
         this.setImmovable();
     }
     update(): void {
@@ -27,7 +26,6 @@ export default class Entity extends Phaser.Physics.Arcade.Sprite
         this.killEntity();
     }
     killEntity(): void {
-        console.log("collided");
         this.isCollided = true;
         this.setVelocityX(0);
         this.setAngularVelocity(0);
@@ -36,6 +34,6 @@ export default class Entity extends Phaser.Physics.Arcade.Sprite
         this.isCollided = false;
         this.setX(this.posX);
         this.setY(this.posY);
-        this.setVelocityX(getConfig().moveSpeed);
+        this.setVelocityX(0);
     }
 }

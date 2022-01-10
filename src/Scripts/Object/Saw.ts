@@ -5,9 +5,9 @@ import Entity from './Entity';
 
 export default class Saw extends Entity
 {
-    constructor(scene:Phaser.Scene)
+    constructor(scene:Phaser.Scene, basePositionY)
     {
-        super(scene, getResolution().width + 50, getResolution().height * 3 / 4 - 50, "saw");
+        super(scene, getResolution().width + 50, basePositionY - 50, "saw");
         this.setAngularVelocity(300);
     }
     reset(): void{

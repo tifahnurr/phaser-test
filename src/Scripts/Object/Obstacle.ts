@@ -5,8 +5,8 @@ import Entity from './Entity';
 
 export default class Obstacle extends Entity
 {
-    constructor(scene:Phaser.Scene)
+    constructor(scene:Phaser.Scene, basePositionY)
     {
-        super(scene, getResolution().width + 50, getResolution().height * 3 / 4 - 65, "obstacle");
+        super(scene, getResolution().width + 50, basePositionY - 65, "obstacle");
     }
 }

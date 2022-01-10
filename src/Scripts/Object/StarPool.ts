@@ -3,9 +3,9 @@ import EntityPool from "./EntityPool";
 import Star from "./Star";
 
 class StarPool extends EntityPool {
-    constructor(game, scene, player, collisionSound) {
+    constructor(game, scene, player, basePositionY, collisionSound) {
         console.log("star pool");
-        super(game, scene, player, collisionSound);
+        super(game, scene, player, basePositionY,collisionSound);
         this.onCollisionEvent = this.onCollision;
     }
     
@@ -16,7 +16,7 @@ class StarPool extends EntityPool {
             this.group.remove(entity);
             entity.collision();
             this.collisionSound.play();
-            this.scene.addScore(50)
+            this.scene.events.emit("addScore", 50);
         }
     }
 }
