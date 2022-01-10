@@ -5,9 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack --watch",
-    "serve": "live-server --port=8085",
-    "start": "node server.js"
+    "start": "npm run build && webpack-dev-server --host=0.0.0.0 --port=$PORT --disable-host-check"
   },
   "author": "kevin sutrisno",
   "license": "MIT",
@@ -25,5 +23,6 @@
   },
   "dependencies": {
     "express": "^4.17.2"
-  }
+  },
+  "heroku-run-build-script": true
 }
