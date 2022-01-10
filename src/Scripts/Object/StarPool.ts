@@ -1,6 +1,4 @@
-import * as Phaser from "phaser";
 import EntityPool from "./EntityPool";
-import Star from "./Star";
 
 class StarPool extends EntityPool {
   constructor(game, scene, player, basePositionY, collisionSound) {

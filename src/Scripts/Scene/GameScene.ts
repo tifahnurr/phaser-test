@@ -1,5 +1,4 @@
 import * as Phaser from "phaser";
-import Shopee from "../Object/Shopee";
 import FpsText from "../Object/FpsText";
 import Player from "../Object/Player";
 import Star from "../Object/Star";
