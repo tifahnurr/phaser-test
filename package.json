@@ -7,8 +7,7 @@
     "build": "webpack",
     "dev": "webpack --watch",
     "serve": "live-server --port=8085",
-    "start": "node server.js",
-    "heroku-postbuild": "webpack -p"
+    "start": "node server.js"
   },
   "author": "kevin sutrisno",
   "license": "MIT",
