@@ -9,7 +9,7 @@ export default class Star extends Entity {
     super(scene, getResolution().width + 50, basePositionY - 200, "crystal");
   }
   collision(): void {
-    super.killEntity();
+    this.killEntity();
     this.setX(-30);
     this.setY(-30);
   }

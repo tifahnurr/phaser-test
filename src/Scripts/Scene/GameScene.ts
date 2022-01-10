@@ -166,7 +166,7 @@ export default class GameScene extends Phaser.Scene {
       getResolution().width / 2,
       getResolution().height / 2,
       "GAME OVER",
-      { fontSize: "32px", color: "#000" }
+      { fontSize: "48px", color: "#000" }
     );
     this.gameOverText.setOrigin(0.5);
     this.gameOverText.visible = false;
