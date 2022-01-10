@@ -53,12 +53,12 @@ class EntityPool {
   onCollision(player, entity): void {}
 
   stopAll(): void {
-    this.group.getChildren().forEach((element) => {
+    this.group.getChildren().forEach((element:Entity) => {
       element.killEntity();
     });
   }
   update(speed): void {
-    this.group.getChildren().forEach((element) => {
+    this.group.getChildren().forEach((element:Entity) => {
       // console.log("move child");
       element.x -= speed;
     });
