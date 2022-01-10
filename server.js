@@ -5,9 +5,9 @@ const app = express();
 const DIST_DIR = path.join(__dirname, './dist');
 const HTML_FILE = path.join(__dirname, 'index.html');
 
-app.use(express.static(DIST_DIR));
+app.use(express.static(__dirname));
 app.get('*', (req, res) => {
-    res.sendFile(HTML_FILE);
+    res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 8080;
